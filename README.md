@@ -19,6 +19,14 @@
 
 <br>
 
+## 🎬 Live Demo
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/OP-AMINUL-FF/OP-AMINUL-FF/main/demo.svg" width="100%" alt="Live Terminal Demo">
+</p>
+
+<br>
+
 <!-- Animated divider -->
 <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%">
 
