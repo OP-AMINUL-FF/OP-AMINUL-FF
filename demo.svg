@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <style>
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      @keyframes scroll { 0%{transform:translateY(0)} 100%{transform:translateY(-300px)} }
+      @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+      @keyframes glow { 0%,100%{text-shadow:0 0 5px #00FF41} 50%{text-shadow:0 0 20px #00FF41,0 0 40px #00FF41} }
+      @keyframes scanLine { 0%{transform:translateY(0)} 100%{transform:translateY(100%)} }
+      @keyframes fadeIn { 0%{opacity:0;transform:translateY(10px)} 100%{opacity:1;transform:translateY(0)} }
+      @keyframes rotate3d { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+      @keyframes barGrow { 0%{width:0%} 100%{width:var(--w)} }
+      @keyframes dots { 0%{content:"."} 33%{content:".."} 66%{content:"..."} }
+      .bg { fill:#0D1117 }
+      .text-green { fill:#00FF41; font-family:'Courier New',monospace }
+      .text-dim { fill:#00AA2A; font-family:'Courier New',monospace }
+      .text-white { fill:#FFFFFF; font-family:'Courier New',monospace }
+      .text-yellow { fill:#FFD700; font-family:'Courier New',monospace }
+      .text-red { fill:#FF4444; font-family:'Courier New',monospace }
+      .text-cyan { fill:#00FFFF; font-family:'Courier New',monospace }
+      .title { font-size:14px; font-weight:bold; font-family:'Courier New',monospace }
+      .cursor { animation:blink 1s steps(1) infinite }
+      .glow { animation:glow 2s ease-in-out infinite }
+      .bar { animation:barGrow 2s ease-out forwards; rx:3 }
+      .line-fade { animation:fadeIn 0.5s ease-out forwards; opacity:0 }
+      .line-fade:nth-child(1) { animation-delay:0s }
+      .line-fade:nth-child(2) { animation-delay:0.3s }
+      .line-fade:nth-child(3) { animation-delay:0.6s }
+    </style>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00FF41"/>
+      <stop offset="100%" stop-color="#00AA2A"/>
+    </linearGradient>
+    <radialGradient id="radarGrad">
+      <stop offset="0%" stop-color="#00FF41" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#00FF41" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="800" height="500"/>
+  
+  <!-- Scan line overlay -->
+  <rect width="800" height="500" fill="url(#radarGrad)" opacity="0.05">
+    <animate attributeName="opacity" values="0.05;0.02;0.05" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="0" y="0" width="800" height="2" fill="#00FF41" opacity="0.15">
+    <animate attributeName="y" from="0" to="500" dur="4s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Border -->
+  <rect x="2" y="2" width="796" height="496" fill="none" stroke="#00FF41" stroke-width="1" opacity="0.3" rx="5"/>
+
+  <!-- Header -->
+  <text x="400" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#00FF41" font-family="'Courier New',monospace" filter="url(#glow)">
+    YOUR-PAX v1.0 — Autonomous Cyberdeck
+    <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <line x1="10" y1="36" x2="790" y2="36" stroke="#00FF41" stroke-width="0.5" opacity="0.5"/>
+
+  <!-- Left Panel - Terminal Output -->
+  <text x="15" y="55" font-size="11" class="text-dim">┌─(your-pax@cyberdeck:~)$ _</text>
+  
+  <g font-size="12">
+    <text x="15" y="75" class="text-green" filter="url(#glow)">► SYSTEM BOOT SEQUENCE INITIATED</text>
+    <text x="15" y="92" class="line-fade text-white">  [ OK ] Loaded network modules</text>
+    <text x="15" y="108" class="line-fade text-white">  [ OK ] Wi-Fi interface wlan0 → wlan0mon</text>
+    <text x="15" y="124" class="line-fade text-white">  [ OK ] E-Paper display initialized</text>
+    <text x="15" y="140" class="line-fade text-white">  [ OK ] Web server running on port 8000</text>
+    <text x="15" y="156" class="line-fade text-white">  [ OK ] Attack modules loaded (20 active)</text>
+    <text x="15" y="172" class="line-fade text-green" filter="url(#glow)">► ALL SYSTEMS OPERATIONAL</text>
+    
+    <text x="15" y="196" class="text-dim">┌─(your-pax@cyberdeck:~)$ <tspan class="text-green">start orchestrator</tspan></text>
+    <text x="15" y="216" class="text-cyan">[SCAN] Scanning 192.168.1.0/24...</text>
+    <text x="15" y="232" class="text-white">  ├─ 192.168.1.1    router      [OPEN]  22,80,443</text>
+    <text x="15" y="248" class="text-white">  ├─ 192.168.1.42   nas-server  [OPEN]  22,445,3306</text>
+    <text x="15" y="264" class="text-white">  └─ 192.168.1.100  windows-pc  [OPEN]  135,445,3389</text>
+    
+    <text x="15" y="288" class="text-yellow">[VULN] Running vulnerability scans...</text>
+    <text x="15" y="304" class="text-white">  ├─ CVE-2024-xxxx  SMBv1   — 192.168.1.42</text>
+    <text x="15" y="320" class="text-white">  └─ CVE-2023-yyyy  RDP     — 192.168.1.100</text>
+    
+    <text x="15" y="344" class="text-green">[BRUTE] Launching credential attacks...</text>
+    <text x="15" y="360" class="text-white">  ├─ SSH   — 192.168.1.42  ─── <tspan class="text-green">root:admin123!</tspan></text>
+    <text x="15" y="376" class="text-white">  └─ SMB   — 192.168.1.100 ─── <tspan class="text-green">admin:Passw0rd</tspan></text>
+    
+    <text x="15" y="400" class="text-red">[LOOT] Exfiltrating sensitive data...</text>
+    <text x="15" y="416" class="text-white">  ├─ passwords.txt    <tspan class="text-dim">(12.4 KB)</tspan></text>
+    <text x="15" y="432" class="text-white">  ├─ dump.sql         <tspan class="text-dim">(2.3 MB)</tspan></text>
+    <text x="15" y="448" class="text-white">  └─ config.xml       <tspan class="text-dim">(4.1 KB)</tspan></text>
+    
+    <text x="15" y="472" class="text-green glow" font-size="14" font-weight="bold">► MISSION COMPLETE ✓</text>
+    <text x="220" y="472" class="cursor text-white" font-size="16">█</text>
+  </g>
+
+  <!-- Right Panel - Live Stats -->
+  <rect x="540" y="45" width="245" height="200" rx="5" fill="#0A1A0A" stroke="#00FF41" stroke-width="0.5" opacity="0.8"/>
+  <text x="662" y="62" text-anchor="middle" font-size="11" class="text-green" font-weight="bold">■ LIVE STATISTICS</text>
+  <line x1="550" y1="68" x2="775" y2="68" stroke="#00FF41" stroke-width="0.3"/>
+
+  <g font-size="11">
+    <!-- Level -->
+    <text x="555" y="88" class="text-dim">LEVEL</text>
+    <text x="555" y="103" class="text-white" font-size="24" font-weight="bold" filter="url(#glow)">
+      12
+      <animate attributeName="opacity" values="1;0.8;1" dur="2s" repeatCount="indefinite"/>
+    </text>
+    
+    <!-- XP Bar -->
+    <rect x="555" y="110" width="150" height="6" rx="3" fill="#1A3A1A"/>
+    <rect x="555" y="110" width="112" height="6" fill="url(#barGrad)" rx="3" style="--w:112px">
+      <animate attributeName="width" values="0;112" dur="3s" fill="freeze"/>
+    </rect>
+    <text x="747" y="115" class="text-dim" font-size="9">XP 75%</text>
+
+    <!-- Stats Grid -->
+    <text x="555" y="135" class="text-dim">┌─────────────────────┐</text>
+    <text x="556" y="148" class="text-dim">│</text>
+    <text x="556" y="148" class="text-green" font-weight="bold">  HOSTS</text>
+    <text x="715" y="148" class="text-white" text-anchor="end">3</text>
+    <text x="720" y="148" class="text-dim">│</text>
+
+    <text x="556" y="162" class="text-dim">│</text>
+    <text x="556" y="162" class="text-green" font-weight="bold">  PORTS</text>
+    <text x="715" y="162" class="text-white" text-anchor="end">8</text>
+    <text x="720" y="162" class="text-dim">│</text>
+
+    <text x="556" y="176" class="text-dim">│</text>
+    <text x="556" y="176" class="text-green" font-weight="bold">  VULNS</text>
+    <text x="715" y="176" class="text-red" text-anchor="end">2</text>
+    <text x="720" y="176" class="text-dim">│</text>
+
+    <text x="556" y="190" class="text-dim">│</text>
+    <text x="556" y="190" class="text-green" font-weight="bold">  CREDS</text>
+    <text x="715" y="190" class="text-yellow" text-anchor="end">2</text>
+    <text x="720" y="190" class="text-dim">│</text>
+
+    <text x="556" y="204" class="text-dim">│</text>
+    <text x="556" y="204" class="text-green" font-weight="bold">  DATA</text>
+    <text x="715" y="204" class="text-white" text-anchor="end">3</text>
+    <text x="720" y="204" class="text-dim">│</text>
+    
+    <text x="556" y="218" class="text-dim">│</text>
+    <text x="556" y="218" class="text-green" font-weight="bold">  COINS</text>
+    <text x="715" y="218" class="text-yellow" text-anchor="end">₿ 42</text>
+    <text x="720" y="218" class="text-dim">│</text>
+
+    <text x="556" y="232" class="text-dim">└─────────────────────┘</text>
+  </g>
+
+  <!-- Bottom Right - Radar/Pulse Animation -->
+  <rect x="540" y="255" width="245" height="230" rx="5" fill="#0A1A0A" stroke="#00FF41" stroke-width="0.5" opacity="0.8"/>
+  <text x="662" y="272" text-anchor="middle" font-size="11" class="text-green" font-weight="bold">■ NETWORK RADAR</text>
+  <line x1="550" y1="278" x2="775" y2="278" stroke="#00FF41" stroke-width="0.3"/>
+
+  <!-- Radar circle -->
+  <circle cx="662" cy="385" r="70" fill="none" stroke="#00FF41" stroke-width="0.3" opacity="0.3"/>
+  <circle cx="662" cy="385" r="50" fill="none" stroke="#00FF41" stroke-width="0.3" opacity="0.2"/>
+  <circle cx="662" cy="385" r="30" fill="none" stroke="#00FF41" stroke-width="0.3" opacity="0.2"/>
+  
+  <!-- Sweeping radar line -->
+  <g transform="translate(662,385)">
+    <line x1="0" y1="0" x2="70" y2="0" stroke="#00FF41" stroke-width="1" opacity="0.8">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="3s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  
+  <!-- Radar dots -->
+  <circle cx="662" cy="385" r="2" fill="#00FF41" filter="url(#glow)">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="702" cy="355" r="2" fill="#FFD700">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="630" cy="420" r="2" fill="#00FF41">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="685" cy="400" r="2" fill="#FF4444">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="640" cy="360" r="2" fill="#00FFFF">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="670" cy="430" r="2" fill="#00FF41">
+    <animate attributeName="opacity" values="0;1;0" dur="2s" begin="1.2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Status indicators at bottom -->
+  <g font-size="10">
+    <text x="550" y="310" class="text-dim">●</text>
+    <text x="560" y="310" class="text-white"> NET: <tspan class="text-green">ACTIVE</tspan></text>
+    
+    <text x="660" y="310" class="text-dim">●</text>
+    <text x="670" y="310" class="text-white"> WIFI: <tspan class="text-green">MONITOR</tspan></text>
+    
+    <text x="550" y="328" class="text-dim">●</text>
+    <text x="560" y="328" class="text-white"> BLUETOOTH: <tspan class="text-green">READY</tspan></text>
+    
+    <text x="660" y="328" class="text-dim">●</text>
+    <text x="670" y="328" class="text-white"> USB: <tspan class="text-green">GADGET</tspan></text>
+    
+    <text x="550" y="346" class="text-dim">●</text>
+    <text x="560" y="346" class="text-white"> DISPLAY: <tspan class="text-green">2.13" e-PAPER</tspan></text>
+
+    <text x="660" y="346" class="text-dim">●</text>
+    <text x="670" y="346" class="text-white"> MODE: <tspan class="text-cyan">AUTO</tspan></text>
+  </g>
+
+  <!-- Bottom status bar -->
+  <rect x="10" y="478" width="780" height="14" rx="2" fill="#0A1A0A" stroke="#00FF41" stroke-width="0.3"/>
+  <text x="15" y="489" font-size="9" class="text-dim">YOUR-PAX v1.0 | OP AMINUL FF | OPX</text>
+  <text x="785" y="489" text-anchor="end" font-size="9" class="text-green" filter="url(#glow)">● RUNNING</text>
+</svg>
